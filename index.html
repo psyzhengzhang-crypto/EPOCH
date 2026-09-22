@@ -1,0 +1,1151 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EPOCH Study · Data Application Portal</title>
+<meta name="description" content="EPOCH (Environmental Psychosocial Outcomes in Chinese Human Development) 数据开放与申请门户：环境、心理社会因素与中国人群心理健康发展的纵向研究队列。">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%200f766e'/%3E%3Ctext x='16' y='22' font-family='Georgia,serif' font-size='18' font-weight='700' fill='white' text-anchor='middle'%3EE%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="https://miaoda.feishu.cn/fonts/css2?family=Noto+Sans+SC:wght@300;400;500;600;700&family=Source+Serif+4:wght@400;600;700&display=swap">
+<style>
+  :root{
+    --teal-900:#0f3d3a;--teal-800:#115e56;--teal-700:#0f766e;--teal-600:#0d9488;
+    --teal-100:#ccfbf1;--teal-50:#f0fdfa;
+    --ink:#1f2937;--ink-soft:#4b5563;--ink-mute:#6b7280;
+    --line:#e5e7eb;--bg:#ffffff;--bg-soft:#f8fafc;
+    --amber:#b45309;--amber-bg:#fef3c7;
+    --blue:#1e40af;--blue-bg:#dbeafe;
+    --orange:#9a3412;--orange-bg:#ffedd5;
+    --radius:10px;
+    --shadow-sm:0 1px 2px rgba(15,61,58,.06),0 1px 3px rgba(15,61,58,.08);
+    --shadow-md:0 4px 14px rgba(15,61,58,.08);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth;scroll-padding-top:72px}
+  body{
+    font-family:"Noto Sans SC",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+    color:var(--ink);background:var(--bg);line-height:1.7;font-size:16px;
+    -webkit-font-smoothing:antialiased;
+  }
+  a{color:var(--teal-700);text-decoration:none;border-bottom:1px dashed transparent;transition:border-color .15s}
+  a:hover{border-bottom-color:var(--teal-700)}
+  .en{color:var(--ink-mute);font-style:normal}
+
+  /* ===== Nav ===== */
+  .nav{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.94);backdrop-filter:saturate(160%) blur(8px);border-bottom:1px solid var(--line)}
+  .nav-inner{max-width:1200px;margin:0 auto;padding:0 24px;height:60px;display:flex;align-items:center;justify-content:space-between;gap:16px}
+  .brand{display:flex;align-items:center;gap:10px;font-weight:700;color:var(--teal-900);letter-spacing:.5px}
+  .brand-mark{width:30px;height:30px;border-radius:7px;background:var(--teal-700);color:#fff;display:grid;place-items:center;font-family:"Source Serif 4",Georgia,serif;font-size:17px;font-weight:700}
+  .brand small{font-weight:400;color:var(--ink-mute);font-size:12px;letter-spacing:.3px}
+  .nav-links{display:flex;gap:2px;flex-wrap:wrap}
+  .nav-links a{padding:8px 11px;border-radius:6px;font-size:14px;color:var(--ink-soft);border:none}
+  .nav-links a:hover{background:var(--teal-50);color:var(--teal-800)}
+  .nav-links a .dot{display:inline-block;width:7px;height:7px;border-radius:50%;margin-right:6px;vertical-align:1px}
+  .dot-A{background:var(--teal-600)}
+  .dot-W{background:var(--blue)}
+  .dot-O{background:var(--orange)}
+
+  /* ===== Hero ===== */
+  .hero{
+    background:linear-gradient(180deg,#f4fbf8 0%,#ffffff 100%);
+    border-bottom:1px solid var(--line);
+  }
+  .hero-figure{width:100%;height:340px;overflow:hidden;border-bottom:1px solid var(--line);line-height:0}
+  .hero-figure svg{width:100%;height:100%;display:block}
+  /* subtle hero animations */
+  .mtn-far{animation:drift 26s ease-in-out infinite alternate}
+  .mtn-near{animation:drift 18s ease-in-out infinite alternate-reverse}
+  @keyframes drift{from{transform:translateX(-12px)}to{transform:translateX(12px)}}
+  .brain-glow{transform-origin:930px 125px;animation:breathe 5s ease-in-out infinite}
+  @keyframes breathe{0%,100%{opacity:.85;transform:scale(1)}50%{opacity:1;transform:scale(1.04)}}
+  .particle{animation:float 6s ease-in-out infinite}
+  .particle.p2{animation-duration:8s;animation-delay:-2s}
+  .particle.p3{animation-duration:7s;animation-delay:-4s}
+  @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+  .leaf{animation:fall 12s linear infinite;opacity:0}
+  .leaf.l2{animation-duration:15s;animation-delay:-4s}
+  .leaf.l3{animation-duration:18s;animation-delay:-8s}
+  @keyframes fall{
+    0%{transform:translate(0,-20px) rotate(0deg);opacity:0}
+    10%{opacity:.7}
+    100%{transform:translate(40px,360px) rotate(360deg);opacity:0}
+  }
+  @media (prefers-reduced-motion: reduce){
+    .mtn-far,.mtn-near,.brain-glow,.particle,.leaf{animation:none}
+  }
+  .figure{cursor:pointer;transform-origin:bottom center;transition:transform .45s cubic-bezier(.2,.7,.3,1)}
+  .figure:hover{transform:scale(1.18) translateY(-6px)}
+  .outreach-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+  @media(max-width:760px){.outreach-grid{grid-template-columns:1fr}}
+  .outreach-card{background:#fff;border:1px solid var(--line);border-radius:10px;padding:22px 24px}
+  .outreach-card h4{font-family:"Source Serif 4",Georgia,"Noto Serif SC",serif;font-size:18px;color:var(--teal-900);margin:0 0 10px}
+  .outreach-card p{font-size:14px;line-height:1.75;color:var(--ink);margin:0}
+  .outreach-src{margin-top:14px;font-size:12px;color:var(--ink-mute);font-style:italic}
+  .figure .flabel{opacity:0;transition:opacity .3s;font-family:"Noto Sans SC",sans-serif;font-size:12px;font-weight:600;fill:#fef3c7}
+  .figure:hover .flabel{opacity:1}
+  .parallax{transition:transform .3s ease-out}
+  .hero-figure{position:relative}
+  .hero-inner{max-width:1200px;margin:0 auto;padding:56px 24px 48px}
+  .eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:12px;letter-spacing:1.5px;color:var(--teal-700);text-transform:uppercase;font-weight:600;margin-bottom:16px}
+  .eyebrow::before{content:"";width:24px;height:1px;background:var(--teal-600)}
+  h1{font-family:"Source Serif 4",Georgia,"Noto Serif SC",serif;font-size:46px;line-height:1.15;color:var(--teal-900);font-weight:700;letter-spacing:-.5px}
+  h1 .acronym{display:block;font-size:17px;font-weight:500;color:var(--ink-mute);letter-spacing:1.5px;margin-top:12px;font-family:"Noto Sans SC",sans-serif}
+  .hero-lede{margin-top:22px;max-width:860px;color:var(--ink-soft);font-size:16.5px}
+  .hero-lede .en{display:block;margin-top:10px;font-size:14.5px;line-height:1.75}
+  .hero-meta{margin-top:28px;display:flex;flex-wrap:wrap;gap:10px}
+  .badge{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;padding:5px 11px;border-radius:999px;border:1px solid var(--line);background:#fff;color:var(--ink-soft)}
+  .badge b{color:var(--teal-800);font-weight:600}
+  .badge.ver{background:var(--teal-700);color:#fff;border-color:var(--teal-700)}
+
+  /* ===== Sections ===== */
+  section{padding:64px 0;border-bottom:1px solid var(--line)}
+  .wrap{max-width:1200px;margin:0 auto;padding:0 24px}
+  .sec-head{margin-bottom:32px}
+  .sec-num{font-family:"Source Serif 4",Georgia,serif;color:var(--teal-600);font-size:14px;letter-spacing:2px;font-weight:600}
+  h2{font-family:"Source Serif 4",Georgia,"Noto Serif SC",serif;font-size:30px;color:var(--teal-900);margin-top:6px;font-weight:700}
+  .sec-sub{margin-top:10px;color:var(--ink-mute);max-width:820px}
+  .sec-sub .en{display:block;margin-top:6px;font-size:14px}
+
+  /* ===== About ===== */
+  .about-grid{display:grid;grid-template-columns:1.15fr 1fr;gap:40px}
+  .about p{margin-bottom:14px;color:var(--ink-soft)}
+  .about p.en{color:var(--ink-mute);font-size:14px;border-left:3px solid var(--teal-100);padding-left:14px}
+  .fact-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+  .fact{background:var(--bg-soft);border:1px solid var(--line);border-radius:var(--radius);padding:16px 18px}
+  .fact .k{font-size:11.5px;color:var(--ink-mute);letter-spacing:1px;text-transform:uppercase}
+  .fact .v{font-size:15.5px;color:var(--teal-900);font-weight:600;margin-top:4px}
+
+  /* ===== Cohort overview cards ===== */
+  .cohort-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-bottom:8px}
+  .cohort-card{border:1px solid var(--line);border-radius:12px;overflow:hidden;background:#fff;box-shadow:var(--shadow-sm);transition:transform .2s,box-shadow .2s;display:flex;flex-direction:column}
+  .cohort-card:hover{transform:translateY(-3px);box-shadow:var(--shadow-md)}
+  .cohort-card .top{padding:22px 24px;color:#fff;position:relative}
+  .cohort-card.A .top{background:linear-gradient(135deg,var(--teal-800),var(--teal-600))}
+  .cohort-card.W .top{background:linear-gradient(135deg,#1e3a8a,#3b82f6)}
+  .cohort-card.O .top{background:linear-gradient(135deg,#7c2d12,#ea580c)}
+  .cohort-icon{width:48px;height:48px;margin-bottom:12px;opacity:.95}
+  .cohort-icon svg{width:100%;height:100%;stroke:#fff;fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+  .cohort-card .code{font-family:"Source Serif 4",serif;font-size:26px;font-weight:700;letter-spacing:1px}
+  .cohort-card .name{font-size:13.5px;opacity:.92;margin-top:4px;line-height:1.5}
+  .cohort-card .body{padding:18px 22px;font-size:13.8px;color:var(--ink-soft);line-height:1.65;flex:1}
+  .cohort-card .foot{padding:12px 22px;border-top:1px dashed var(--line);font-size:12.5px;color:var(--ink-mute);display:flex;justify-content:space-between;align-items:center}
+  .cohort-card .foot a{font-weight:600}
+  .status-pill{display:inline-block;font-size:11px;padding:2px 8px;border-radius:999px;font-weight:600}
+  .status-live{background:var(--teal-100);color:var(--teal-800)}
+  .status-design{background:var(--orange-bg);color:var(--orange)}
+
+  /* ===== Cohort detail ===== */
+  .cohort-block{padding:56px 0;border-top:1px solid var(--line)}
+  .cohort-block:first-of-type{border-top:none;padding-top:0}
+  .cohort-head{display:flex;align-items:center;gap:18px;margin-bottom:18px;flex-wrap:wrap}
+  .cohort-mark{width:56px;height:56px;border-radius:12px;display:grid;place-items:center;color:#fff;font-family:"Source Serif 4",serif;font-size:24px;font-weight:700;flex-shrink:0}
+  .mark-A{background:linear-gradient(135deg,var(--teal-800),var(--teal-600))}
+  .mark-W{background:linear-gradient(135deg,#1e3a8a,#3b82f6)}
+  .mark-O{background:linear-gradient(135deg,#7c2d12,#ea580c)}
+  .cohort-head h3{font-family:"Source Serif 4",serif;font-size:24px;color:var(--teal-900);line-height:1.25}
+  .cohort-head .en{display:block;font-size:13.5px;color:var(--ink-mute);margin-top:3px;font-weight:400;font-family:"Noto Sans SC",sans-serif}
+  .cohort-desc{color:var(--ink-soft);max-width:900px;margin-bottom:14px}
+  .cohort-desc .en{display:block;margin-top:8px;font-size:14px}
+
+  .group-label{display:flex;align-items:center;gap:10px;margin:28px 0 14px}
+  .group-label .bar{width:28px;height:2px;background:var(--teal-600)}
+  .group-label h4{font-size:15.5px;color:var(--ink);font-weight:600}
+  .group-label .en{font-size:13px;color:var(--ink-mute)}
+
+  .sample-list{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  .sample{border:1px solid var(--line);border-radius:var(--radius);padding:20px 22px;background:#fff;box-shadow:var(--shadow-sm);display:flex;flex-direction:column;gap:8px;transition:box-shadow .2s,transform .2s}
+  .sample:hover{box-shadow:var(--shadow-md);transform:translateY(-2px)}
+  .sample h5{font-size:15.5px;color:var(--teal-900);line-height:1.45}
+  .sample .s-en{font-size:12.5px;color:var(--ink-mute);font-style:italic;line-height:1.5}
+  .sample p{font-size:13.8px;color:var(--ink-soft);line-height:1.65}
+  .sample .meta{margin-top:auto;padding-top:10px;border-top:1px dashed var(--line);font-size:12.5px;color:var(--ink-mute);display:flex;flex-direction:column;gap:4px}
+  .sample .meta b{color:var(--ink-soft);font-weight:600}
+  .sample a.doc{display:inline-flex;align-items:center;gap:5px;font-size:12.5px;margin-top:2px}
+  .star{color:var(--amber);font-weight:700}
+  .tag{display:inline-block;font-size:11px;padding:2px 8px;border-radius:4px;background:var(--bg-soft);border:1px solid var(--line);color:var(--ink-mute);margin-right:4px}
+  .tag.long{background:var(--teal-50);border-color:var(--teal-100);color:var(--teal-800)}
+
+  /* ===== Process ===== */
+  .steps{display:grid;gap:0}
+  .step{display:grid;grid-template-columns:60px 1fr;gap:20px;padding:22px 0;border-bottom:1px dashed var(--line)}
+  .step:last-child{border-bottom:none}
+  .step-num{width:46px;height:46px;border-radius:50%;background:var(--teal-700);color:#fff;display:grid;place-items:center;font-family:"Source Serif 4",serif;font-size:19px;font-weight:700;box-shadow:var(--shadow-sm)}
+  .step h3{font-size:17px;color:var(--teal-900);margin-bottom:5px}
+  .step h3 .en{font-size:12.5px;color:var(--ink-mute);font-weight:400;margin-left:8px}
+  .step p{color:var(--ink-soft);font-size:14.5px}
+  .step .links{margin-top:10px;display:flex;flex-wrap:wrap;gap:8px}
+  .step .links a{font-size:13px;background:var(--teal-50);border:1px solid var(--teal-100);padding:4px 10px;border-radius:6px;color:var(--teal-800)}
+  .step.optional .step-num{background:var(--ink-mute)}
+
+  /* ===== Team ===== */
+  .team-grid{display:grid;grid-template-columns:1.2fr 1fr;gap:36px}
+  .pi-card{border:1px solid var(--line);border-radius:var(--radius);padding:24px;background:linear-gradient(180deg,#fff,var(--teal-50))}
+  .pi-card .pi-name{font-size:20px;font-weight:700;color:var(--teal-900)}
+  .pi-card .pi-role{font-size:13px;color:var(--ink-mute);margin-top:4px}
+  .pi-card p{margin-top:12px;font-size:14px;color:var(--ink-soft)}
+  .inst-list{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .inst{border:1px solid var(--line);border-radius:8px;padding:12px 14px;background:#fff;font-size:13px}
+  .inst .cn{font-weight:600;color:var(--teal-900)}
+  .inst .en{display:block;font-size:11.5px;color:var(--ink-mute);margin-top:2px}
+
+  /* ===== Governance ===== */
+  .gov-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:20px 0 28px}
+  .gov-card{border:1px solid var(--line);border-radius:var(--radius);padding:18px;background:#fff;box-shadow:var(--shadow-sm)}
+  .gov-card .g-icon{width:36px;height:36px;border-radius:8px;background:var(--teal-50);display:grid;place-items:center;margin-bottom:10px}
+  .gov-card .g-icon svg{width:20px;height:20px;stroke:var(--teal-700);fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+  .gov-card h5{font-size:14.5px;color:var(--teal-900);margin-bottom:4px}
+  .gov-card .g-en{font-size:11.5px;color:var(--ink-mute);margin-bottom:8px}
+  .gov-card p{font-size:12.8px;color:var(--ink-soft);line-height:1.6}
+  .gov-card .person{font-size:14px;font-weight:600;color:var(--ink);margin-top:8px}
+  .gov-card .aff{font-size:12px;color:var(--ink-mute);margin-top:2px;line-height:1.5}
+  .gov-card a.mail{display:inline-block;font-size:12.5px;margin-top:6px;color:var(--teal-700);border:none}
+  .gov-card a.mail:hover{text-decoration:underline}
+  .ext-pi{border:1px solid var(--line);border-radius:var(--radius);padding:16px 18px;background:#fff;box-shadow:var(--shadow-sm)}
+  .ext-pi .person{font-size:14.5px;font-weight:600;color:var(--teal-900)}
+  .ext-pi .aff{font-size:12.5px;color:var(--ink-mute);margin-top:4px;line-height:1.6}
+  .ext-pi a{display:inline-block;font-size:12.5px;margin-top:6px;color:var(--teal-700);border:none}
+  .ext-pi a:hover{text-decoration:underline}
+  .gov-ring{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:28px}
+  .gov-ring .r{border-left:3px solid var(--teal-600);background:var(--teal-50);padding:12px 16px;border-radius:0 8px 8px 0}
+  .gov-ring .r h6{font-size:13.5px;color:var(--teal-900);margin-bottom:4px}
+  .gov-ring .r p{font-size:12.5px;color:var(--ink-soft);line-height:1.6}
+  .rhythm{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
+  .rhythm .c{border:1px dashed var(--line);border-radius:8px;padding:12px;background:#fff}
+  .rhythm .c .t{font-size:11px;color:var(--teal-700);font-weight:700;letter-spacing:1px}
+  .rhythm .c .d{font-size:12.5px;color:var(--ink-soft);margin-top:4px;line-height:1.55}
+
+  /* ===== Publications ===== */
+  .pub-stats{display:flex;gap:28px;flex-wrap:wrap;margin:18px 0 10px;padding:18px 22px;background:var(--teal-50);border:1px solid var(--teal-100);border-radius:var(--radius)}
+  .pub-stats .s .n{font-size:26px;font-weight:700;color:var(--teal-800);font-family:"Source Serif 4",serif;line-height:1}
+  .pub-stats .s .l{font-size:12px;color:var(--ink-mute);margin-top:4px}
+  .pub-year{font-family:"Source Serif 4",serif;color:var(--teal-700);font-size:19px;font-weight:700;margin:26px 0 6px;padding-bottom:6px;border-bottom:2px solid var(--teal-100)}
+  .pub-item{padding:14px 0;border-bottom:1px dashed var(--line)}
+  .pub-item:last-child{border-bottom:none}
+  .pub-title{font-size:15px;color:var(--teal-900);font-weight:600;line-height:1.5}
+  .pub-title a{color:var(--teal-800);border:none;word-break:break-word}
+  .pub-title a:hover{color:var(--teal-600);text-decoration:underline}
+  .pub-title a::after{content:" ↗";font-size:12px;color:var(--teal-600);margin-left:4px;opacity:0;transition:opacity .15s}
+  .pub-title a:hover::after{opacity:1}
+  .pub-meta{font-size:13px;color:var(--ink-mute);margin-top:5px;display:flex;flex-wrap:wrap;gap:6px 12px;align-items:center}
+  .pub-meta .journal{color:var(--ink-soft);font-style:italic}
+  .pub-tag{display:inline-block;font-size:11px;padding:1px 8px;border-radius:999px;background:#fff;border:1px solid var(--teal-100);color:var(--teal-800)}
+
+  /* ===== Template ===== */
+  .template-box{background:var(--bg-soft);border:1px solid var(--line);border-radius:var(--radius);padding:26px 28px;font-size:14.5px;color:var(--ink-soft);line-height:1.85;white-space:pre-wrap;font-family:inherit;max-height:560px;overflow:auto}
+  .template-box .ph{color:var(--teal-700);background:var(--teal-50);padding:1px 6px;border-radius:4px;font-family:ui-monospace,monospace;font-size:.92em}
+
+  /* ===== Guidelines ===== */
+  .guide-list{display:grid;gap:0}
+  .guide{padding:18px 0;border-bottom:1px dashed var(--line)}
+  .guide:last-child{border-bottom:none}
+  .guide h4{font-size:15.5px;color:var(--teal-900);margin-bottom:6px;display:flex;align-items:center;gap:8px}
+  .guide h4::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--teal-600)}
+  .guide h4 .en{font-size:12.5px;color:var(--ink-mute);font-weight:400}
+  .guide p{font-size:14.5px;color:var(--ink-soft)}
+  .guide p + p{margin-top:6px}
+
+  /* ===== Callout ===== */
+  .callout{border-left:4px solid var(--amber);background:var(--amber-bg);padding:14px 18px;border-radius:0 var(--radius) var(--radius) 0;margin:18px 0;font-size:14px;color:#7c2d12}
+  .callout.blue{border-color:var(--blue);background:var(--blue-bg);color:#1e3a8a}
+  .callout.teal{border-color:var(--teal-600);background:var(--teal-50);color:var(--teal-900)}
+
+  /* ===== Footer ===== */
+  footer{background:var(--teal-900);color:#d1e7e3;padding:48px 0}
+  footer .wrap{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:32px}
+  footer h5{color:#fff;font-size:14px;letter-spacing:1px;margin-bottom:12px}
+  footer p,footer a{font-size:13.5px;color:#a7d4cd;line-height:1.7}
+  footer a{color:#cdeae4;border:none}
+  footer a:hover{color:#fff}
+  .footer-bottom{margin-top:28px;padding-top:18px;border-top:1px solid rgba(255,255,255,.12);font-size:12.5px;color:#86b8b1}
+  .team-grid-foot{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:26px}
+  .tcard{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:10px;padding:16px 18px}
+  .tcard .role{font-size:11px;letter-spacing:1.5px;color:#7dd3c8;text-transform:uppercase;font-weight:600}
+  .tcard .name{font-size:15px;font-weight:600;color:#fff;margin-top:5px}
+  .tcard .aff{font-size:12px;color:#a7d4cd;margin-top:4px;line-height:1.55}
+  .tcard a{font-size:12.5px;color:#cdeae4;border:none;margin-top:6px;display:inline-block}
+  .tcard a:hover{color:#fff;text-decoration:underline}
+  .wechat{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.08);padding:4px 10px;border-radius:6px;font-size:12.5px;color:#cdeae4;margin-top:6px}
+
+  /* ===== Responsive ===== */
+  @media (max-width:900px){
+    h1{font-size:32px}
+    .about-grid,.sample-list,.cohort-grid,.team-grid{grid-template-columns:1fr}
+    footer .wrap{grid-template-columns:1fr}
+    .nav-links{display:none}
+    .hero-inner{padding:44px 20px}
+    section{padding:44px 0}
+    .wrap{padding:0 20px}
+    .cohort-grid{gap:14px}
+  }
+</style>
+</head>
+<body>
+
+<!-- ============ NAV ============ -->
+<nav class="nav">
+  <div class="nav-inner">
+    <div class="brand">
+      <div class="brand-mark">E</div>
+      <div>EPOCH Study <small>Data Application Portal</small></div>
+    </div>
+    <div class="nav-links">
+      <a href="#about">关于 About</a>
+      <a href="#cohorts">队列 Cohorts</a>
+      <a href="#apply">申请 Apply</a>
+      <a href="#team">宗旨 Mission</a>
+      <a href="#publications">成果 Publications</a>
+      <a href="#contact">联系/加入 Contact</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ============ HERO ============ -->
+<header class="hero">
+  <div class="hero-figure">
+    <svg viewBox="0 0 1200 340" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Abstract landscape with city skyline, trees and a glowing brain">
+      <defs>
+        <linearGradient id="hbg" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stop-color="#0f3d3a"/>
+          <stop offset="55%" stop-color="#0f766e"/>
+          <stop offset="100%" stop-color="#14b8a6"/>
+        </linearGradient>
+        <radialGradient id="glow" cx="0.80" cy="0.42" r="0.38">
+          <stop offset="0%" stop-color="#fef3c7" stop-opacity=".85"/>
+          <stop offset="100%" stop-color="#fef3c7" stop-opacity="0"/>
+        </radialGradient>
+      </defs>
+      <rect width="1200" height="340" fill="url(#hbg)"/>
+      <rect width="1200" height="340" fill="url(#glow)"/>
+      <!-- distant mountains -->
+      <path class="mtn-far" d="M0 235 Q220 175 430 215 T820 205 T1200 225 V340 H0 Z" fill="#083330" opacity=".35"/>
+      <path class="mtn-near" d="M0 270 Q260 220 520 260 T1010 250 T1200 265 V340 H0 Z" fill="#083330" opacity=".55"/>
+      <!-- city skyline on the right -->
+      <g fill="#083330" opacity=".65">
+        <rect x="800" y="185" width="28" height="155"/>
+        <rect x="838" y="155" width="22" height="185"/>
+        <rect x="870" y="205" width="34" height="135"/>
+        <rect x="914" y="175" width="26" height="165"/>
+        <rect x="950" y="215" width="20" height="125"/>
+        <rect x="980" y="195" width="30" height="145"/>
+        <rect x="1020" y="225" width="22" height="115"/>
+      </g>
+      <!-- trees on the left -->
+      <g fill="#083330" opacity=".75">
+        <circle cx="110" cy="220" r="42"/>
+        <rect x="106" y="252" width="8" height="42"/>
+        <circle cx="180" cy="240" r="30"/>
+        <rect x="177" y="263" width="6" height="30"/>
+        <circle cx="230" cy="258" r="22"/>
+      </g>
+      <!-- glowing brain circle -->
+      <circle class="brain-glow" cx="930" cy="125" r="72" fill="none" stroke="#fef3c7" stroke-width="1.4" opacity=".85"/>
+      <g stroke="#fef3c7" stroke-width="1.4" fill="none" opacity=".9" stroke-linecap="round">
+        <path d="M900 125 q10 -22 32 -17 q26 -6 31 16 q5 20 -16 26 q-26 8 -42 -5 q-13 -9 -5 -20 z"/>
+        <path d="M914 113 q8 9 0 18"/>
+        <path d="M936 107 q6 11 0 22"/>
+        <path d="M952 122 q-4 9 -13 11"/>
+      </g>
+      <!-- light particles -->
+      <g fill="#fef3c7">
+        <circle class="particle" cx="300" cy="95" r="2" opacity=".7"/>
+        <circle class="particle p2" cx="480" cy="75" r="1.5" opacity=".6"/>
+        <circle class="particle p3" cx="680" cy="120" r="2" opacity=".7"/>
+        <circle class="particle p2" cx="1080" cy="85" r="1.5" opacity=".6"/>
+        <circle class="particle p3" cx="600" cy="160" r="1.2" opacity=".5"/>
+      </g>
+      <!-- falling leaves -->
+      <g fill="#a7d48a">
+        <ellipse class="leaf" cx="350" cy="40" rx="4" ry="2.5"/>
+        <ellipse class="leaf l2" cx="750" cy="20" rx="3.5" ry="2.2"/>
+        <ellipse class="leaf l3" cx="900" cy="60" rx="4" ry="2.5"/>
+      </g>
+      <!-- three populations on the meadow -->
+      <!-- teen with backpack -->
+      <g class="figure parallax" data-depth="18">
+        <ellipse cx="260" cy="317" rx="20" ry="3" fill="#083330" opacity=".25"/>
+        <ellipse cx="260" cy="244" rx="7" ry="8.2" fill="#083330"/>
+        <path d="M253 240 q-2 -7 4 -9" stroke="#083330" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+        <path d="M252 254 q0 -4 8 -4 q8 0 8 4 l2 22 q0 4 -4 4 h-12 q-4 0 -4 -4 z" fill="#083330"/>
+        <rect x="246" y="258" width="6" height="16" rx="2.2" fill="#083330"/>
+        <path d="M253 256 q-4 7 -2 13" stroke="#083330" stroke-width="3" fill="none" stroke-linecap="round"/>
+        <rect x="254" y="280" width="5" height="34" rx="1.5" fill="#083330"/>
+        <rect x="262" y="280" width="5" height="34" rx="1.5" fill="#083330"/>
+        <ellipse cx="256" cy="315" rx="4.2" ry="2" fill="#083330"/>
+        <ellipse cx="265" cy="315" rx="4.2" ry="2" fill="#083330"/>
+        <text class="flabel" x="260" y="232" text-anchor="middle">Adolescents 青少年</text>
+      </g>
+      <!-- worker with briefcase -->
+      <g class="figure parallax" data-depth="12">
+        <ellipse cx="560" cy="317" rx="22" ry="3" fill="#083330" opacity=".25"/>
+        <ellipse cx="560" cy="242" rx="7" ry="8.2" fill="#083330"/>
+        <path d="M551 252 q0 -3 9 -3 q9 0 9 3 l3 24 q0 3 -3 3 h-18 q-3 0 -3 -3 z" fill="#083330"/>
+        <path d="M557 252 l3 9 l3 -9" fill="none" stroke="#f4fbf8" stroke-width="1.2"/>
+        <path d="M572 260 q2 8 0 16" stroke="#083330" stroke-width="3" fill="none" stroke-linecap="round"/>
+        <rect x="571" y="278" width="15" height="10" rx="1.5" fill="#083330"/>
+        <path d="M574 278 v-2.2 h9 v2.2" stroke="#083330" stroke-width="1.2" fill="none"/>
+        <rect x="554" y="282" width="5" height="33" rx="1.5" fill="#083330"/>
+        <rect x="562" y="282" width="5" height="33" rx="1.5" fill="#083330"/>
+        <ellipse cx="556" cy="315" rx="4.2" ry="2" fill="#083330"/>
+        <ellipse cx="565" cy="315" rx="4.2" ry="2" fill="#083330"/>
+        <text class="flabel" x="560" y="230" text-anchor="middle">Working Adults 职场</text>
+      </g>
+      <!-- elder with cane -->
+      <g class="figure parallax" data-depth="8">
+        <ellipse cx="860" cy="317" rx="22" ry="3" fill="#083330" opacity=".25"/>
+        <ellipse cx="860" cy="246" rx="6.5" ry="7.5" fill="#083330"/>
+        <path d="M854 254 q6 -3 13 0 q2 10 1 24 q0 3 -3 3 h-9 q-3 0 -3 -3 z" fill="#083330"/>
+        <path d="M872 256 v58" stroke="#083330" stroke-width="2.5" stroke-linecap="round"/>
+        <path d="M869 256 q3 -4 6 -2" stroke="#083330" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+        <path d="M856 260 q-3 6 -2 12" stroke="#083330" stroke-width="2.8" fill="none" stroke-linecap="round"/>
+        <rect x="855" y="280" width="4.5" height="34" rx="1.5" fill="#083330"/>
+        <rect x="862" y="280" width="4.5" height="34" rx="1.5" fill="#083330"/>
+        <ellipse cx="857" cy="315" rx="3.8" ry="2" fill="#083330"/>
+        <ellipse cx="865" cy="315" rx="3.8" ry="2" fill="#083330"/>
+        <text class="flabel" x="860" y="234" text-anchor="middle">Older Adults 老年</text>
+      </g>
+      <!-- meadow -->
+      <path d="M0 316 Q300 308 600 314 T1200 312 V340 H0 Z" fill="#083330" opacity=".35"/>
+    </svg>
+  </div>
+  <div class="hero-inner">
+    <div class="eyebrow">Open Research Data · China Cohort</div>
+    <h1>
+      EPOCH Study
+      <span class="acronym">Environmental Psychosocial Outcomes in Chinese Human Development</span>
+    </h1>
+    <p class="hero-lede">
+      面向中国本土情境的人类发展研究队列，聚焦<strong>环境因素、心理社会因素与发展结局</strong>之间的关系；采用全国多中心、多波次设计，从生命周期与发展生态视角考察不同人群的心理健康、行为适应与社会功能。
+      <span class="en">A nationwide, multicenter, multi-wave research cohort examining how environmental and psychosocial factors shape mental health, behavioral adaptation, and social functioning across the life course in Chinese populations.</span>
+    </p>
+  </div>
+</header>
+
+<!-- ============ ABOUT ============ -->
+<section id="about">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="sec-num">01 · ABOUT</div>
+      <h2>关于 EPOCH <span class="en" style="font-size:15px;color:var(--ink-mute);font-weight:400">About the Study</span></h2>
+    </div>
+    <div class="about-grid">
+      <div class="about">
+        <p>EPOCH Study 是一个面向中国本土情境的人类发展研究队列，聚焦环境因素、心理社会因素与发展结局之间的关系。该队列采用全国多中心、多波次设计，强调从生命周期和发展生态视角考察个体在不同阶段的心理健康、行为适应与社会功能变化。</p>
+        <p>青少年与青年样本（EPOCH-A）是当前的核心子队列；职业人群（EPOCH-W）与老年群体（EPOCH-O）正在陆续扩展。作为一个具有开放性与延展性的研究平台，EPOCH 致力于为中国人类发展相关研究提供持续、系统且多维的数据支持。</p>
+        <p class="en">EPOCH is a human development research cohort designed within the Chinese context, focusing on the relationships among environmental factors, psychosocial factors, and developmental outcomes. The adolescent/young-adult cohort (EPOCH-A) is currently the core; working adults (EPOCH-W) and older adults (EPOCH-O) are being extended. As an open and extensible platform, EPOCH aims to provide continuous, systematic, and multidimensional data support.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ COHORTS OVERVIEW ============ -->
+<section id="cohorts">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="sec-num">02 · COHORTS</div>
+      <h2>三大队列 <span class="en" style="font-size:15px;color:var(--ink-mute);font-weight:400">Three Cohorts</span></h2>
+      <p class="sec-sub">按研究人群划分，而非按授权等级。A 为当前核心，W/O 正在建设。
+        <span class="en">Organized by study population rather than access tier. EPOCH-A is the current core; W and O are under development.</span>
+      </p>
+    </div>
+    <div class="cohort-grid">
+      <a href="#ep-a" class="cohort-card A" style="border:none">
+        <div class="top">
+          <div class="cohort-icon"><svg viewBox="0 0 48 48"><circle cx="24" cy="14" r="6"/><path d="M12 40c0-7 5.4-12 12-12s12 5 12 12"/><circle cx="38" cy="12" r="3.5" opacity=".8"/><path d="M33 28c2.5.8 4.6 2.3 6 4.6" opacity=".8"/></svg></div>
+          <div class="code">EPOCH-A</div>
+          <div class="name">Adolescents &amp; Young Adults<br>青少年与青年</div>
+        </div>
+        <div class="body">
+          核心队列。约 5000+ 人全国纵向追踪，已完成三波；覆盖中学生、大学生与全国一般人群横断面样本，测量环境、数字行为、家庭经历、AI 使用与多维心理健康结局。
+        </div>
+        <div class="foot"><span class="status-pill status-live">● Open 开放申请</span><span>查看 →</span></div>
+      </a>
+      <a href="#ep-w" class="cohort-card W" style="border:none">
+        <div class="top">
+          <div class="cohort-icon"><svg viewBox="0 0 48 48"><rect x="10" y="18" width="28" height="20" rx="2"/><path d="M18 18v-3a3 3 0 0 1 3-3h6a3 3 0 0 1 3 3v3"/><path d="M10 26h28"/><circle cx="24" cy="29" r="1.5" fill="#fff"/></svg></div>
+          <div class="code">EPOCH-W</div>
+          <div class="name">Working Adults<br>职业人群</div>
+        </div>
+        <div class="body">
+          面向成年职业人群的心理健康与社会决定因素研究。已开放成年人心理健康横断面子样本与护理人员 21 天日记纵向样本。
+        </div>
+        <div class="foot"><span class="status-pill status-live">● Open 开放申请</span><span>查看 →</span></div>
+      </a>
+      <a href="#ep-o" class="cohort-card O" style="border:none">
+        <div class="top">
+          <div class="cohort-icon"><svg viewBox="0 0 48 48"><circle cx="22" cy="13" r="5.5"/><path d="M14 40c0-6 4-10 8-10s8 4 8 10"/><path d="M34 22v18"/><path d="M34 22c0-2 1.5-3.5 3.5-3.5S41 20 41 22"/><path d="M31 40h6"/></svg></div>
+          <div class="code">EPOCH-O</div>
+          <div class="name">Older Adults<br>老年群体</div>
+        </div>
+        <div class="body">
+          面向老年人群的发展结局队列。采集方案设计中，预计 2027 年完成预调查，2028 年开展基线工作。
+        </div>
+        <div class="foot"><span class="status-pill status-design">○ Design 设计中</span><span>查看 →</span></div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ EPOCH-A DETAIL ============ -->
+<section id="ep-a" style="background:var(--bg-soft)">
+  <div class="wrap">
+    <div class="cohort-block">
+      <div class="cohort-head">
+        <div class="cohort-mark mark-A">A</div>
+        <div>
+          <h3>EPOCH-A 主队列：青少年与青年
+            <span class="en">EPOCH-A Main Cohort: Adolescents and Young Adults</span>
+          </h3>
+        </div>
+      </div>
+      <p class="cohort-desc">
+        EPOCH-A 是面向中国青少年与青年的全国多中心纵向研究队列，已在全国多个省份和地区开展多轮定点抽样，总样本量约 <strong>5000 余人</strong>，目前已完成第三波数据采集。测量内容覆盖健康行为、情绪与行为特征、自我调节与数字生活经验，以及家庭、学校、宿舍、社区、城市与自然环境等多层次生态背景，并追踪失眠、焦虑、抑郁、躯体化、精神病性体验及自杀自伤等核心心理健康结局。
+        <span class="en">EPOCH-A is a nationwide, multicenter longitudinal cohort of Chinese adolescents and young adults (N ≈ 5,000+; three waves completed). It links multi-level ecological contexts — family, school, neighborhood, city, and natural environment — to core mental-health outcomes including insomnia, anxiety, depression, somatization, psychotic-like experiences, and self-harm/suicidality.</span>
+      </p>
+
+      <!-- Group 1: Middle school -->
+      <div class="group-label">
+        <span class="bar"></span>
+        <h4>中学生群体 · Secondary-school Students</h4>
+      </div>
+      <div class="sample-list">
+        <article class="sample">
+          <h5>子样本 1-1 · 湖南青少年横断面样本
+            <div class="s-en">EPOCH-A Hunan Cross-sectional Sample</div>
+          </h5>
+          <p>基于湖南省约 <b>2000 名初中生和高中生</b>，另含约 <b>100 名教师配对数据</b>（若同时申请教师数据则升级授权等级）。测量童年经历、同伴关系、学校情境、师生互动、神经发育特质及情绪行为问题。</p>
+          <div class="meta">
+            <span><b>原始伦理：</b>中南大学湘雅二医院（(2023) 国伦审[科]第 036 号）</span>
+            <span><b>补充伦理：</b>西华大学（XJLL-2025041101）</span>
+            <a class="doc" href="https://www.kdocs.cn/office/w/caDmgILlcQ45?sub_file_id=3FH5HPRGABADC&attachment_store_type=upload_ks3&disablePlugins&readonly" target="_blank" rel="noopener">样本说明 A →</a>
+            <a class="doc" href="https://www.kdocs.cn/office/w/caDmgILlcQ45?sub_file_id=ZFH5HPRGACAHG&attachment_store_type=upload_ks3&disablePlugins&readonly" target="_blank" rel="noopener">样本说明 B →</a>
+          </div>
+        </article>
+      </div>
+
+      <!-- Group 2: General population cross-sectional -->
+      <div class="group-label">
+        <span class="bar"></span>
+        <h4>全国一般人群横断面 · National General-Population Cross-sectional</h4>
+      </div>
+      <div class="sample-list">
+        <article class="sample">
+          <h5>子样本 1-2 · 全国社会文化心理横断面样本
+            <div class="s-en">EPOCH-A National Socio-Cultural Psychology Cross-sectional Sample</div>
+          </h5>
+          <p>基于全国多地区约 <b>6000 人</b>横断面样本，测量集体主义/个体主义、传统文化认同、整体思维、理性主义、马基雅维利主义、去人性化倾向及自然接触等维度。<strong>含 IP 地址与街道级地理信息。</strong></p>
+          <div class="meta">
+            <span><b>伦理批准：</b>上海杉达学院（2024003）</span>
+            <a class="doc" href="https://www.kdocs.cn/office/w/caDmgILlcQ45?sub_file_id=KB45NPRGADQAA&attachment_store_type=upload_ks3&disablePlugins&readonly" target="_blank" rel="noopener">样本说明文档 →</a>
+          </div>
+        </article>
+        <article class="sample">
+          <h5>子样本 1-3 · 全国数字行为与环境心理横断面样本
+            <div class="s-en">EPOCH-A National Digital Behavior and Environmental Psychology Cross-sectional Sample</div>
+          </h5>
+          <p>基于全国多地区约 <b>4000 余人</b>横断面样本，测量亲子互动、父母手机使用、社区绿化与居住环境、网络使用与信息加工、思维空白与注意、创造力、心流、自然联结及自我认知等。</p>
+          <div class="meta">
+            <span><b>伦理批准：</b>陕西警察学院（20240721-001）</span>
+            <span class="tag long">前两波 B 级 · 完整三波 A 级</span>
+            <a class="doc" href="https://www.kdocs.cn/office/w/caDmgILlcQ45?sub_file_id=NUNNZPRGADACW&attachment_store_type=upload_ks3&disablePlugins&readonly" target="_blank" rel="noopener">样本说明文档 →</a>
+          </div>
+        </article>
+      </div>
+
+      <!-- Group 3: College students -->
+      <div class="group-label">
+        <span class="bar"></span>
+        <h4>大学生群体 · College Students</h4>
+      </div>
+      <div class="sample-list">
+        <article class="sample">
+          <h5><span class="star">★</span> 子样本 1-4 · 全国大学生家庭经历与自我认同横断面样本
+            <div class="s-en">EPOCH-A National College Student Family Experience and Self-Identity Cross-sectional Sample</div>
+          </h5>
+          <p>基于约 <b>3000 例大学生</b>，测量家庭结构与社会经济背景、童年物质条件、父母时间贫困、亲职化经历、未来规划、社会支持、自我概念清晰度、父亲教养、感恩及职业发展意向等。</p>
+          <div class="meta">
+            <span><b>伦理批准：</b>西华大学（XJLL-2025041101）</span>
+            <a class="doc" href="https://www.kdocs.cn/office/w/caDmgILlcQ45?sub_file_id=MZCDDUJGABQAK&attachment_store_type=upload_ks3&disablePlugins&readonly" target="_blank" rel="noopener">样本说明文档 →</a>
+          </div>
+        </article>
+        <article class="sample">
+          <h5><span class="star">★</span> 子样本 1-5 · 全国人工智能使用体验与心理适应横断面样本
+            <div class="s-en">EPOCH-A National AI Use Experience and Psychological Adaptation Cross-sectional Sample</div>
+          </h5>
+          <p>基于 <b>2400 例大学生</b>，测量 AI 羞耻、信息过载、大脑空白、心智游移、内外部羞耻感、特质心流、人工智能态度、AI 素养、AI 使用频率及失去 AI 后的影响感知等。</p>
+          <div class="meta">
+            <span><b>伦理批准：</b>西华大学（XJLL-2025041101）</span>
+            <a class="doc" href="https://www.kdocs.cn/office/w/caDmgILlcQ45?sub_file_id=7CATDUJGABQHQ&attachment_store_type=upload_ks3&disablePlugins&readonly" target="_blank" rel="noopener">样本说明文档 →</a>
+          </div>
+        </article>
+        <article class="sample">
+          <h5><span class="star">★</span> 子样本 1-6 · 全国人工智能暴露与心理行为适应横断面样本
+            <div class="s-en">EPOCH-A National AI Exposure and Psycho-Behavioral Adaptation Cross-sectional Sample</div>
+          </h5>
+          <p>基于 <b>3600 例大学生</b>，测量 AI 暴露、AI 焦虑、AI 羞耻、马基雅维里主义、时间贫困、信息过载、抑郁焦虑、内卷感知、职业倦怠、知识隐藏、工作生活平衡、心理丰富性、主观幸福感及生命意义感等。</p>
+          <div class="meta">
+            <span><b>伦理批准：</b>西华大学（XJLL-2025041101）</span>
+            <a class="doc" href="https://www.kdocs.cn/office/w/caDmgILlcQ45?sub_file_id=TCWDDUJGAAAHM&attachment_store_type=upload_ks3&disablePlugins&readonly" target="_blank" rel="noopener">样本说明文档 →</a>
+          </div>
+        </article>
+        <article class="sample">
+          <h5><span class="star">▲★</span> 子样本 1-7 · 大学生大语言模型使用与心理健康纵向三波样本
+            <div class="s-en">EPOCH-A College Student LLM Use and Mental Health Three-Wave Longitudinal Sample</div>
+          </h5>
+          <p>基于 <b>600 例纵向三波</b>，测量大语言模型使用频率与依赖、模型幻觉体验、信息过载、精神病性体验、数字倦怠、大语言模型失控感、情绪稳定性、创造性自我效能、正念、批判性思维、不确定性容忍、内卷感知及抑郁焦虑等。</p>
+          <div class="meta">
+            <span><b>伦理批准：</b>西华大学（XJLL-2025041101）</span>
+            <span class="tag long">Longitudinal 三波纵向</span>
+            <a class="doc" href="https://www.kdocs.cn/office/w/caDmgILlcQ45?sub_file_id=63UDDUJGABQA6&attachment_store_type=upload_ks3&disablePlugins&readonly" target="_blank" rel="noopener">样本说明文档 →</a>
+          </div>
+        </article>
+        <article class="sample">
+          <h5><span class="star">★</span> 子样本 1-9 · 大学生人与自然关系及心理健康三波纵向样本
+            <div class="s-en">EPOCH-A Three-Wave Longitudinal Sample of College Students' Human-Nature Relationship and Mental Health</div>
+          </h5>
+          <p><span class="tag">New 新上线</span> 聚焦大学生与自然环境的关系及其纵向心理健康结局，三波追踪设计。</p>
+          <div class="meta">
+            <span class="tag long">Longitudinal 三波纵向</span>
+          </div>
+        </article>
+      </div>
+
+      <!-- Group 4: Gender/Sexuality minorities -->
+      <div class="group-label">
+        <span class="bar"></span>
+        <h4>多元性别与性少数群体 · Gender/Sexuality Minorities</h4>
+      </div>
+      <div class="sample-list">
+        <article class="sample">
+          <h5><span class="star">★</span> 子样本 1-8 · 多元性别与性取向相关心理健康横断面样本
+            <div class="s-en">EPOCH-A Gender/Sexuality-Related Mental Health Cross-sectional Sample</div>
+          </h5>
+          <p>基于 <b>900 例在线横断面</b>样本，测量性取向及同性恋爱角色、性别表达、出柜程度、内化恐同、LGBT 自我认同、自我病耻感、抑郁—焦虑—压力、领悟社会支持及被欺凌/网络被欺凌经历。</p>
+          <div class="meta">
+            <span><b>伦理批准：</b>深圳大学 Shenzhen University</span>
+          </div>
+        </article>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ EPOCH-W DETAIL ============ -->
+<section id="ep-w">
+  <div class="wrap">
+    <div class="cohort-block">
+      <div class="cohort-head">
+        <div class="cohort-mark mark-W">W</div>
+        <div>
+          <h3>EPOCH-W 职业队列：Working Adults
+            <span class="en">Environmental Psychosocial Outcomes in Chinese Human Development – Working Adults</span>
+          </h3>
+        </div>
+      </div>
+      <p class="cohort-desc">
+        面向中国成年职业人群的心理健康与社会决定因素研究，覆盖一般职场成人与临床护理人员等高压力职业。
+        <span class="en">A cohort on mental health and social determinants of health among Chinese working adults, including both general employees and high-occupational-stress groups (e.g., clinical nurses).</span>
+      </p>
+
+      <div class="group-label">
+        <span class="bar" style="background:var(--blue)"></span>
+        <h4>一般职场成人 · General Working Adults</h4>
+      </div>
+      <div class="sample-list">
+        <article class="sample">
+          <h5>子样本 3-1 · 成年人心理健康与社会健康决定因素子样本
+            <div class="s-en">EPOCH-W Adult Mental Health and Social Determinants of Health Subsample</div>
+          </h5>
+          <p>涵盖人口学特征、社会经济背景及多维心理健康指标，采用 PHQ、GAD、WHO-5、ISI、UCLA、SDH-Q 等标准化量表，可用于成年人心理健康状况描述、相关因素分析、风险识别及预测模型研究。</p>
+          <div class="meta">
+            <span><b>伦理批准：</b>华南师范大学心理学院（SCNU-PSY-2025-279）</span>
+            <a class="doc" href="https://www.kdocs.cn/office/w/caDmgILlcQ45?sub_file_id=F26CI7RJABAHM&attachment_store_type=upload_ks3&disablePlugins&readonly" target="_blank" rel="noopener">样本说明文档 →</a>
+          </div>
+        </article>
+      </div>
+
+      <div class="group-label">
+        <span class="bar" style="background:var(--blue)"></span>
+        <h4>护理人员 · Clinical Nurses</h4>
+      </div>
+      <div class="sample-list">
+        <article class="sample">
+          <h5>子样本 3-2 · 护理人员工作体验与心理动态纵向日记样本
+            <div class="s-en">EPOCH-W Nurses' Work Experience and Psychological Dynamics Longitudinal Diary Sample</div>
+          </h5>
+          <p>基于上海、广州、长沙等地区临床护理人员，采用基线调查 + 连续 <b>21 天日记追踪</b>设计，覆盖工作负荷、轮班、医护协作、道德困扰、情绪耗竭、工作满意度、离职倾向、睡眠质量及每日抑郁焦虑症状。</p>
+          <div class="meta">
+            <span><b>伦理批准：</b>华南师范大学心理学院（SCNU-PSY-2025-279）</span>
+            <span class="tag long">Daily Diary 生态瞬时评估</span>
+          </div>
+        </article>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ EPOCH-O DETAIL ============ -->
+<section id="ep-o" style="background:var(--bg-soft)">
+  <div class="wrap">
+    <div class="cohort-block">
+      <div class="cohort-head">
+        <div class="cohort-mark mark-O">O</div>
+        <div>
+          <h3>EPOCH-O 老年队列：Older Adults
+            <span class="en">Environmental Psychosocial Outcomes in Chinese Human Development – Older Adults</span>
+          </h3>
+        </div>
+      </div>
+      <div class="callout" style="margin:0">
+        <strong>采集方案设计中 · Study protocol under development.</strong><br>
+        预计 2027 年完成预调查，2028 年开展基线工作。Pilot expected 2027; baseline wave expected 2028.
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ APPLY PROCESS ============ -->
+<section id="apply">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="sec-num">03 · APPLICATION</div>
+      <h2>数据申请流程 <span class="en" style="font-size:15px;color:var(--ink-mute);font-weight:400">Application Process</span></h2>
+      <p class="sec-sub">请按以下步骤顺序完成。
+        <span class="en">Please complete the steps in order.</span>
+      </p>
+    </div>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div>
+          <h3>阅读数据库说明 <span class="en">Read the data dictionary</span></h3>
+          <p>了解数据库内容、用途、数据使用规范及其他必须遵守的规定。</p>
+          <div class="links"><a href="https://www.kdocs.cn/office/w/caDmgILlcQ45?sub_file_id=DBXJUDBKAAADW&attachment_store_type=upload_ks3&disablePlugins&readonly" target="_blank" rel="noopener">数据库说明 Data Dictionary →</a></div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div>
+          <h3>阅读并签署保密协议 <span class="en">Read &amp; sign the DUA</span></h3>
+          <p>保密协议包含数据使用的保密要求及其他法律责任，请确保理解并同意。</p>
+          <div class="links"><a href="https://www.kdocs.cn/office/w/caDmgILlcQ45?sub_file_id=44PJUDBKACAFA&attachment_store_type=upload_ks3&disablePlugins&readonly" target="_blank" rel="noopener">保密协议 DUA →</a></div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div>
+          <h3>选择样本并签署申请书 <span class="en">Choose a sample &amp; sign the application form</span></h3>
+          <p>阅读与研究相关的样本说明，选择最匹配的样本，填写并签署申请书。</p>
+          <div class="links"><a href="#ep-a">查看 EPOCH-A ↓</a><a href="#ep-w">查看 EPOCH-W ↓</a><a href="https://www.kdocs.cn/office/w/caDmgILlcQ45?sub_file_id=URJZ2DBKABAE6&attachment_store_type=upload_ks3&disablePlugins&readonly" target="_blank" rel="noopener">数据申请表 Application Form →</a></div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <div>
+          <h3>在云文档中登记研究选题 <span class="en">Register your research topic</span></h3>
+          <p>签署申请书后，前往云文档登记选题。<strong>不要修改他人选题</strong>，避免撞题。每六个月定期清查无效选题并释放；无效选题将收到邮件被终止数据授权。</p>
+          <div class="links"><a href="https://www.kdocs.cn/l/cjcwHmCcSvca" target="_blank" rel="noopener">选题登记 Topic Registry →</a></div>
+          <div class="callout teal" style="margin-top:14px">
+            合作与独立型申请需添加项目发起人为<strong>共同通讯作者</strong>，并添加伦理申报者为<strong>普通作者</strong>。
+          </div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">5</div>
+        <div>
+          <h3>发送申请材料 <span class="en">Email your materials</span></h3>
+          <p>将学信网截图 / 工作证明、已签署保密协议、已签署样本申请书（及如适用的导师签字页、研究计划简表、选题登记截图）发送至 <a href="mailto:epoch2026@126.com"><strong>epoch2026@126.com</strong></a>。可参考下方<a href="#template">邮件模板</a>。</p>
+        </div>
+      </div>
+      <div class="step optional">
+        <div class="step-num">6</div>
+        <div>
+          <h3>（可选）参与数据共建 <span class="en">Optional · Contribute data</span></h3>
+          <div class="links">
+            <a href="https://www.kdocs.cn/office/w/caDmgILlcQ45?sub_file_id=VE62ADBKAAADA&attachment_store_type=upload_ks3&disablePlugins&readonly" target="_blank" rel="noopener">共建说明 1 →</a>
+            <a href="https://www.kdocs.cn/office/w/caDmgILlcQ45?sub_file_id=3OE2ADBKADADO&attachment_store_type=upload_ks3&disablePlugins&readonly" target="_blank" rel="noopener">共建说明 2 →</a>
+            <a href="https://www.kdocs.cn/office/w/caDmgILlcQ45?sub_file_id=YSV2ADBKADADE&attachment_store_type=upload_ks3&disablePlugins&readonly" target="_blank" rel="noopener">共建说明 3 →</a>
+            <a href="https://www.kdocs.cn/l/cuyNLnXy98xU" target="_blank" rel="noopener">外部数据提交汇总表 →</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ TEAM / MISSION ============ -->
+<section id="team" style="background:var(--bg-soft)">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="sec-num">04 · MISSION</div>
+      <h2>数据库宗旨与合作机构 <span class="en" style="font-size:15px;color:var(--ink-mute);font-weight:400">Mission &amp; Affiliations</span></h2>
+    </div>
+    <div class="team-grid">
+      <div class="pi-card">
+        <div class="pi-name" style="font-size:18px">开放 · 非盈利 · 学术公开</div>
+        <div class="pi-role">Open · Non-profit · Academic Use Only</div>
+        <p>
+          EPOCH 是一个面向中国人类发展研究的<strong>非盈利、公开数据平台</strong>，所有数据仅用于学术研究目的，不用于任何商业用途。项目组欢迎所有获批使用者在合理引用与共享协议下，将自己的数据处理流程、分析代码与复现材料在本平台及相关开放仓库中公开分享，以支持可重复研究与开放科学（Open Science）。
+          <br><br>
+          <span class="en">EPOCH is a non-profit, publicly accessible research data platform. All data are provided for academic, non-commercial use only. Approved users are encouraged to share their data-processing pipelines, analysis code, and reproducibility materials on this portal and related open repositories, in support of transparent, reproducible, and open science.</span>
+        </p>
+      </div>
+      <div>
+        <h4 style="font-size:15px;margin-bottom:12px;color:var(--teal-900)">伦理审批机构 Institutional Review Boards</h4>
+        <div class="inst-list">
+          <div class="inst"><span class="cn">华南师范大学</span><span class="en">South China Normal University</span></div>
+          <div class="inst"><span class="cn">中南大学湘雅二医院</span><span class="en">The Second Xiangya Hospital, CSU</span></div>
+          <div class="inst"><span class="cn">西华大学</span><span class="en">Xihua University</span></div>
+          <div class="inst"><span class="cn">上海杉达学院</span><span class="en">Sanda University</span></div>
+          <div class="inst"><span class="cn">陕西警察学院</span><span class="en">Shaanxi Police College</span></div>
+          <div class="inst"><span class="cn">深圳大学</span><span class="en">Shenzhen University</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ GOVERNANCE ============ -->
+<section id="governance">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="sec-num">05 · GOVERNANCE</div>
+      <h2>团队治理架构 <span class="en" style="font-size:15px;color:var(--ink-mute);font-weight:400">Governance &amp; Operations</span></h2>
+    </div>
+
+    <h4 style="font-size:15px;color:var(--ink);margin-bottom:4px">核心组 · Core Team</h4>
+    <div class="gov-grid">
+      <div class="gov-card">
+        <div class="g-icon"><svg viewBox="0 0 24 24"><path d="M12 3v18M5 8l7-5 7 5M5 8v8l7 5 7-5V8"/></svg></div>
+        <h5>首席科学官</h5>
+        <div class="g-en">Principal Investigator</div>
+        <p>学术方向把关、论文批判性审查、合作通讯与对外代表。</p>
+        <div class="person">Zheng Zhang</div>
+        <div class="aff">South China Normal University<br>Guangzhou, China</div>
+        <a class="mail" href="mailto:hldzzz@foxmail.com">hldzzz@foxmail.com</a>
+      </div>
+      <div class="gov-card">
+        <div class="g-icon"><svg viewBox="0 0 24 24"><ellipse cx="12" cy="5" rx="8" ry="3"/><path d="M4 5v14c0 1.7 3.6 3 8 3s8-1.3 8-3V5"/><path d="M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3"/></svg></div>
+        <h5>数据管理员</h5>
+        <div class="g-en">Data Manager</div>
+        <p>数据字典、代码本、版本控制、GitHub 仓库、申请表与选题登记审核。</p>
+        <div class="person">Bopeng Shen</div>
+        <div class="aff">Shenyang Normal University<br>Shenyang, China</div>
+        <a class="mail" href="mailto:yubopeng@foxmail.com">yubopeng@foxmail.com</a>
+      </div>
+      <div class="gov-card">
+        <div class="g-icon"><svg viewBox="0 0 24 24"><path d="M12 3l8 4v5c0 5-3.5 8.5-8 9-4.5-.5-8-4-8-9V7z"/><path d="M9 12l2 2 4-4"/></svg></div>
+        <h5>伦理核查员</h5>
+        <div class="g-en">Ethics Reviewer</div>
+        <p>跟进伦理批件有效期与续报修订；审核数据使用范围与伦理批件一致性。</p>
+        <div class="person">Dongheng Hua</div>
+        <div class="aff">Nanjing Normal University<br>Nanjing, China</div>
+        <a class="mail" href="mailto:huahugo@njnu.edu.cn">huahugo@njnu.edu.cn</a>
+      </div>
+      <div class="gov-card">
+        <div class="g-icon"><svg viewBox="0 0 24 24"><path d="M12 21s-7-6.1-7-11a7 7 0 1 1 14 0c0 4.9-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg></div>
+        <h5>子样本 Local PI · 西北</h5>
+        <div class="g-en">Local PI (Northwest)</div>
+        <p>负责陕西警察学院子样本的现场采集、测量规范与数据质量。</p>
+        <div class="person">Huiting Zou</div>
+        <div class="aff">Shaanxi Police College<br>Xi'an 710061, China</div>
+        <a class="mail" href="mailto:zhtbj@126.com">zhtbj@126.com</a>
+      </div>
+      <div class="gov-card">
+        <div class="g-icon"><svg viewBox="0 0 24 24"><path d="M12 21s-7-6.1-7-11a7 7 0 1 1 14 0c0 4.9-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg></div>
+        <h5>子样本 Local PI · 西南</h5>
+        <div class="g-en">Local PI (Southwest)</div>
+        <p>负责西华大学子样本的现场采集、测量规范与数据质量。</p>
+        <div class="person">Jian Sun</div>
+        <div class="aff">Xihua University<br>Chengdu 610039, China</div>
+        <a class="mail" href="mailto:0120210048@mail.xhu.edu.cn">0120210048@mail.xhu.edu.cn</a>
+      </div>
+    </div>
+
+    <h4 style="font-size:15px;color:var(--ink);margin:28px 0 4px">外围网络 · External Network</h4>
+    <div class="gov-ring">
+      <div class="r"><h6>方法学顾问</h6><p>心理测量 / 纵向分析 / 开放科学方向顾问，每年 1–2 次顾问会，给工具与分析规范挑硬伤。</p></div>
+      <div class="r"><h6>学生顾问</h6><p>在读研究生代表，从申请人视角对申请流程、文档可读性与数据使用体验提供反馈与改进建议。</p></div>
+      <div class="r"><h6>参与者顾问</h6><p>由曾填写问卷的受访者代表组成，就问卷表述、作答负担、研究问题与结果传播向项目组提出意见。</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PUBLICATIONS ============ -->
+<section id="publications" style="background:var(--bg-soft)">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="sec-num">06 · PUBLICATIONS</div>
+      <h2>已发表成果 <span class="en" style="font-size:15px;color:var(--ink-mute);font-weight:400">Selected Publications</span></h2>
+      <p class="sec-sub">基于 EPOCH 数据已正式发表的同行评议论文。按发表年份倒序。
+        <span class="en">Peer-reviewed papers using EPOCH data, listed by year (newest first).</span>
+      </p>
+    </div>
+
+    <div class="pub-stats">
+      <div class="s"><div class="n">12</div><div class="l">论文 Papers</div></div>
+      <div class="s"><div class="n">10</div><div class="l">期刊 Journals</div></div>
+      <div class="s"><div class="n">5</div><div class="l">已用子样本 Subsamples</div></div>
+      <div class="s"><div class="n">2023–2026</div><div class="l">时间跨度 Span</div></div>
+    </div>
+
+    <div class="pub-year">2026</div>
+    <div class="pub-item">
+      <div class="pub-title"><a href="https://doi.org/10.1007/s11482-025-10543-w" target="_blank" rel="noopener">Parentification as a Bridge Between Childhood Family Poverty and Time Poverty Among Chinese University Students: A Conservation of Resources Perspective</a></div>
+      <div class="pub-meta">
+        <span class="journal">Applied Research in Quality of Life</span>
+        <span>2026-01</span>
+        <span>以亲职化为中介、基于资源保存理论，探讨中国大学生童年家庭贫困与当下时间贫困的关联。</span>
+        <span class="pub-tag">子样本 1-4</span>
+      </div>
+    </div>
+    <div class="pub-item">
+      <div class="pub-title"><a href="https://doi.org/10.1016/j.jenvp.2026.102916" target="_blank" rel="noopener">Divergent Mechanisms Linking Belief in a Just World to Naturalness Preference: The Roles of Rationalism and Holistic Thinking</a></div>
+      <div class="pub-meta">
+        <span class="journal">Journal of Environmental Psychology</span>
+        <span>2026-01</span>
+        <span>区分理性主义与整体思维两条路径，解释公正世界信念如何影响个体对自然的偏好。</span>
+        <span class="pub-tag">子样本 1-3</span>
+      </div>
+    </div>
+
+    <div class="pub-year">2025</div>
+    <div class="pub-item">
+      <div class="pub-title"><a href="https://doi.org/10.1038/s41398-025-03511-3" target="_blank" rel="noopener">Entropy-based risk network identification in adolescent self-injurious behavior using machine learning and network analysis</a></div>
+      <div class="pub-meta">
+        <span class="journal">Translational Psychiatry</span>
+        <span>2025-08</span>
+        <span>结合机器学习与网络分析，用熵指标识别青少年自伤行为中的高风险心理网络节点。</span>
+        <span class="pub-tag">子样本 1-1</span>
+      </div>
+    </div>
+    <div class="pub-item">
+      <div class="pub-title"><a href="https://doi.org/10.1186/s40359-025-03407-3" target="_blank" rel="noopener">From victims to aggressors: the link between childhood family abuse and adolescent peer bullying</a></div>
+      <div class="pub-meta">
+        <span class="journal">BMC Psychology</span>
+        <span>2025-09</span>
+        <span>检验童年家庭虐待如何促使青少年从欺凌受害者转变为欺凌他人者。</span>
+        <span class="pub-tag">子样本 1-1</span>
+      </div>
+    </div>
+    <div class="pub-item">
+      <div class="pub-title"><a href="https://doi.org/10.1016/j.chiabu.2025.107788" target="_blank" rel="noopener">The detrimental effect of combined risks on mind-wandering: A response surface analysis of childhood family abuse and peer bullying</a></div>
+      <div class="pub-meta">
+        <span class="journal">Child Abuse &amp; Neglect</span>
+        <span>2025-11</span>
+        <span>采用响应面分析，考察童年家庭虐待与同伴欺凌的组合模式对心智游移的非线性影响。</span>
+        <span class="pub-tag">子样本 1-1</span>
+      </div>
+    </div>
+    <div class="pub-item">
+      <div class="pub-title"><a href="https://doi.org/10.1016/j.chiabu.2025.107306" target="_blank" rel="noopener">Divergent school bullying experiences and mental health: The mediating role of self-stigma among Chinese LGB adolescents and young adults</a></div>
+      <div class="pub-meta">
+        <span class="journal">Child Abuse &amp; Neglect</span>
+        <span>2025-02</span>
+        <span>在中国 LGB 青少年样本中，探讨不同类型欺凌经历如何通过自我污名影响心理健康。</span>
+        <span class="pub-tag">子样本 1-8</span>
+      </div>
+    </div>
+    <div class="pub-item">
+      <div class="pub-title"><a href="https://doi.org/10.1016/j.jpsychores.2025.112109" target="_blank" rel="noopener">Nature connectedness alters the structure of the dehumanization–mental symptoms network: A comparative cross-sectional network analysis</a></div>
+      <div class="pub-meta">
+        <span class="journal">Journal of Psychosomatic Research</span>
+        <span>2025-03</span>
+        <span>网络分析比较自然联结对去人性化与心理症状之间网络结构的重塑作用。</span>
+        <span class="pub-tag">子样本 1-2</span>
+      </div>
+    </div>
+    <div class="pub-item">
+      <div class="pub-title"><a href="https://doi.org/10.1080/19419899.2025.2518973" target="_blank" rel="noopener">Different impacts of traditional bullying and cyberbullying in Chinese LGB adolescents and young adults: a moderated mediation analysis</a></div>
+      <div class="pub-meta">
+        <span class="journal">Psychology &amp; Sexuality</span>
+        <span>2025-06</span>
+        <span>比较传统欺凌与网络欺凌对中国 LGB 青少年心理健康的差异化影响及其有调节的中介路径。</span>
+        <span class="pub-tag">子样本 1-8</span>
+      </div>
+    </div>
+    <div class="pub-item">
+      <div class="pub-title"><a href="https://doi.org/10.1186/s40359-025-02667-3" target="_blank" rel="noopener">The role of mind wandering and anxiety in the association between internet addiction and hyperactivity-impulsivity: a serial mediation model</a></div>
+      <div class="pub-meta">
+        <span class="journal">BMC Psychology</span>
+        <span>2025-04</span>
+        <span>序列中介模型检验心智游移与焦虑在网络成瘾与多动-冲动之间的链式中介作用。</span>
+        <span class="pub-tag">子样本 1-1</span>
+      </div>
+    </div>
+    <div class="pub-item">
+      <div class="pub-title"><a href="https://doi.org/10.1016/j.childyouth.2025.108518" target="_blank" rel="noopener">Risk or refuge? The dual role of affinity for solitude and deviant peer affiliation in the link between childhood maltreatment and youth depression: a mixed-methods study</a></div>
+      <div class="pub-meta">
+        <span class="journal">Children and Youth Services Review</span>
+        <span>2025</span>
+        <span>混合方法研究揭示独处偏好的"避风港"与偏差同伴群体的"风险"在童年虐待与青少年抑郁间的双重作用。</span>
+        <span class="pub-tag">子样本 1-1</span>
+      </div>
+    </div>
+
+    <div class="pub-year">2024</div>
+    <div class="pub-item">
+      <div class="pub-title"><a href="https://doi.org/10.1016/j.ajp.2024.104136" target="_blank" rel="noopener">Core items selection and psychometric properties of the adult attention-deficit hyperactivity disorder self-report scale—Chinese short version (ASRS-CSV)</a></div>
+      <div class="pub-meta">
+        <span class="journal">Asian Journal of Psychiatry</span>
+        <span>2024-09</span>
+        <span>完成成人注意缺陷多动障碍自评量表中文简版（ASRS-CSV）的核心条目筛选与心理测量学检验。</span>
+        <span class="pub-tag">子样本 1-1</span>
+      </div>
+    </div>
+
+    <div class="pub-year">2023</div>
+    <div class="pub-item">
+      <div class="pub-title"><a href="https://doi.org/10.1016/j.sleep.2023.10.012" target="_blank" rel="noopener">The influence of neuroticism on insomnia: The chain mediating effect of mind wandering and symptom rumination</a></div>
+      <div class="pub-meta">
+        <span class="journal">Sleep Medicine</span>
+        <span>2023</span>
+        <span>检验神经质对失眠的影响，揭示心智游移与症状反刍在其间的链式中介机制。</span>
+        <span class="pub-tag">子样本 1-1</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="group-label" style="margin-top:40px">
+    <span class="bar"></span>
+    <h4>科普导读 · Public Science</h4>
+  </div>
+  <p style="color:var(--ink-mute);max-width:820px;margin:0 0 20px">基于本数据库已发表的研究，用大众能读懂的话讲一讲这些发现对日常意味着什么。后续短文将陆续补充。</p>
+  <div class="outreach-grid">
+    <article class="outreach-card">
+      <h4>为什么"想太多"的人更容易失眠？</h4>
+      <p>很多人以为失眠是"脑子停不下来"。基于湖南近 2000 名青少年的研究发现，真正让人睡不着的往往不是白天那件事本身，而是睡前大脑的两种"自动驾驶"：一是<strong>心智游移</strong>——注意力不知不觉飘向过去的后悔和未来的担忧；二是<strong>症状反刍</strong>——已经躺下了，却反复想"我又睡不着了，明天怎么办"。情绪更容易波动的人，更容易被这两条路径拖住，于是越想睡越清醒。给普通人的建议：睡前 30 分钟别"努力睡着"，而是把感觉轻轻放在呼吸或身体接触床面的部位，让大脑知道"现在不必处理任何事"。</p>
+      <div class="outreach-src">基于 Zheng Zhang et al., <em>Sleep Medicine</em>, 2023（子样本 1-1）</div>
+    </article>
+    <article class="outreach-card">
+      <h4>网络欺凌和线下欺凌，哪一种对性少数青少年伤害更大？</h4>
+      <p>答案不是"哪一种更糟"，而是"走的路不一样"。基于 900 名中国 LGB 青少年的研究发现：线下欺凌更容易通过<strong>出柜压力</strong>和<strong>内化恐同</strong>——被欺负的人慢慢觉得"是我自己不正常"——把人推向抑郁；而网络欺凌因为 24 小时在线、逃无可逃，更多是直接侵蚀日常的安全感和自我价值感。这意味着对性少数青少年的支持不能只靠"学校里别被欺负"，还要帮他们建立安全的线上空间，以及一个能坦然谈论身份的成年人。</p>
+      <div class="outreach-src">基于 Hui Xie et al., <em>Psychology &amp; Sexuality</em>, 2025（子样本 1-8）</div>
+    </article>
+  </div>
+</section>
+
+<!-- ============ TEMPLATE ============ -->
+<section id="template">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="sec-num">07 · TEMPLATE</div>
+      <h2>申请邮件模板 <span class="en" style="font-size:15px;color:var(--ink-mute);font-weight:400">Application Email Template</span></h2>
+      <p class="sec-sub">将占位符替换为实际信息后，连同附件发送至 <a href="mailto:epoch2026@126.com">epoch2026@126.com</a>。</p>
+    </div>
+    <p style="font-size:13px;color:var(--ink-mute);margin-bottom:8px">邮件主题 Subject：</p>
+    <div class="template-box" style="margin-bottom:18px">EPOCH Study 数据申请｜<span class="ph">[申请人姓名]</span>｜<span class="ph">[研究题目简写]</span></div>
+    <div class="template-box">EPOCH Study 项目组您好：
+
+我是<span class="ph">[姓名]</span>，现为<span class="ph">[学校/单位]</span><span class="ph">[院系/部门]</span>的<span class="ph">[硕士研究生/博士研究生/博士后/教师等]</span>，导师/合作 PI 为<span class="ph">[姓名，如适用]</span>。
+
+现拟开展题为《<span class="ph">[研究题目]</span>》的研究，主要关注<span class="ph">[用 1–2 句话简要说明研究问题]</span>。根据目前的研究方案，拟申请使用 EPOCH Study 中的<span class="ph">[子样本名称/编号]</span>数据，主要涉及<span class="ph">[波次]</span>及<span class="ph">[核心变量或量表，可简要列出]</span>。
+
+本次申请的数据门槛为<span class="ph">[C/B/A]</span>类。本人目前的 EPOCH 数据使用情况为：<span class="ph">[首次申请 / 已完成相关成果投稿，稿件题目或项目编号为…… / 其他需要说明的情况]</span>。
+
+申请材料已随邮件附上，包括：
+· 《EPOCH Study 数据申请表》；
+· 《EPOCH Study 数据使用与保密承诺书》；
+· <span class="ph">[在读证明/导师确认材料/其他材料，如适用]</span>。
+
+详细的研究背景、数据范围、变量需求及分析计划均已填写在申请表中。如申请的数据范围或研究方案需要进一步调整，我愿意根据项目组审核意见进行修改。
+
+感谢审核。如需补充其他材料，请随时联系我。
+
+祝好！
+
+<span class="ph">[姓名]</span>
+<span class="ph">[学校/单位]</span>
+<span class="ph">[院系/部门]</span>
+<span class="ph">[身份/年级或职称]</span>
+<span class="ph">[联系电话]</span>
+<span class="ph">[邮箱]</span>
+<span class="ph">[日期]</span></div>
+  </div>
+</section>
+
+<!-- ============ GUIDELINES ============ -->
+<section id="guidelines" style="background:var(--bg-soft)">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="sec-num">08 · GUIDELINES</div>
+      <h2>申请须知 <span class="en" style="font-size:15px;color:var(--ink-mute);font-weight:400">Application Guidelines</span></h2>
+    </div>
+    <div class="guide-list">
+      <div class="guide">
+        <h4>分级授权 <span class="en">Access tiers</span></h4>
+        <p>首申仅 <strong>C 类 1 项</strong>；一篇手稿投稿后可 <strong>B 类 1 项或 C 类 2 项</strong>；两篇手稿投稿后方可 <strong>A 类</strong>。</p>
+      </div>
+      <div class="guide">
+        <h4>硕士签字 <span class="en">Master's signature</span></h4>
+        <p>在读硕士需导师亲笔签字，数据同步导师邮箱；硕士毕业生、在读博士不受限；非全日制硕士可单位名义申请。</p>
+      </div>
+      <div class="guide">
+        <h4>处理时间 <span class="en">Processing</span></h4>
+        <p>每月 <strong>15 日 / 30 日</strong>集中处理（节假日顺延）。</p>
+      </div>
+      <div class="guide">
+        <h4>选题唯一性 <span class="en">Topic exclusivity</span></h4>
+        <p>登记后勿改他人内容，避免撞题；每六个月清查并释放无效选题。</p>
+      </div>
+      <div class="guide">
+        <h4>数据 Double Check <span class="en">Independent verification</span></h4>
+        <p>投稿论文需至少两位署名成员独立处理、核心结论一致；否则提交完整流程 + 代码 + 结果供审查。</p>
+      </div>
+      <div class="guide">
+        <h4>贡献角色与署名 <span class="en">Roles &amp; authorship</span></h4>
+        <p>须注明 <strong>Data Processing / Data Review（不同人）/ Text Writing</strong>；合作与独立型申请需加发起人为共同通讯、伦理申报者为普通作者。</p>
+      </div>
+      <div class="guide">
+        <h4>禁止 AI 代写 <span class="en">No AI writing</span></h4>
+        <p>获取数据后不得使用 AI 生成写作，违者直接拒申。</p>
+      </div>
+      <div class="guide">
+        <h4>跨境合规 <span class="en">Cross-border</span></h4>
+        <p>数据已匿名化、不含可识别个人信息；依《促进和规范数据跨境流动规定》第三条，学术合作用途出境可免安全评估与标准合同，前提是境外接收方签保密及不得再转移承诺。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer id="contact">
+  <div class="wrap">
+    <div>
+      <h5>申请材料投递 · Application Submission</h5>
+      <p>邮箱 Email：<a href="mailto:epoch2026@126.com">epoch2026@126.com</a><br>
+      集中处理：每月 15 日 / 30 日（节假日顺延）</p>
+      <div class="wechat">微信公众号 WeChat：环境与心理社会发展追踪研究</div>
+    </div>
+    <div>
+      <h5>关于 EPOCH</h5>
+      <p>EPOCH 是面向中国人类发展研究的非盈利公开数据平台，仅用于学术研究。欢迎分享数据处理流程与代码，支持开放科学。</p>
+    </div>
+  </div>
+  <div class="wrap footer-bottom">
+    © 2026 EPOCH Study. For academic research use only. All data are de-identified; no commercial use permitted.
+  </div>
+</footer>
+
+<script>
+  // subtle parallax on hero figures following the mouse
+  (function(){
+    var fig = document.querySelector('.hero-figure');
+    if(!fig || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    var items = fig.querySelectorAll('.parallax');
+    fig.addEventListener('mousemove', function(e){
+      var r = fig.getBoundingClientRect();
+      var x = ((e.clientX - r.left) / r.width - 0.5);
+      items.forEach(function(el){
+        var d = parseFloat(el.getAttribute('data-depth') || '10');
+        el.style.transform = 'translateX(' + (x * d) + 'px)';
+      });
+    });
+    fig.addEventListener('mouseleave', function(){
+      items.forEach(function(el){ el.style.transform = ''; });
+    });
+  })();
+</script>
+
+</body>
+</html>
